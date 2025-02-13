@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparativa de Precios</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Comparativa de Precios Energéticos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Concepto</th>
+                <th>Valores</th>
+                <th>Precio Actual</th>
+                <th><input type="text" id="nombre-alt1" value="Precio Alternativo 1"></th>
+                <th><input type="text" id="nombre-alt2" value="Precio Alternativo 2"></th>
+                <th><input type="text" id="nombre-alt3" value="Precio Alternativo 3"></th>
+            </tr>
+        </thead>
+        <tbody id="tabla-body">
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><strong>Total Coste</strong></td>
+                <td></td>
+                <td id="total-actual">0</td>
+                <td id="total-alternativo1">0</td>
+                <td id="total-alternativo2">0</td>
+                <td id="total-alternativo3">0</td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    <div>
+        <h3>Cálculo Diario</h3>
+        <label for="valor-anual">Valor Anual:</label>
+        <input type="number" id="valor-anual" value="0">
+        <p>Resultado Diario: <span id="resultado-diario">0</span></p>
+    </div>
+    
+    <script>
+        const conceptos = ["Potencia Punta", "Potencia Valle", "Consumo Punta", "Consumo Valle", "Consumo Llano"];
+        const valoresPorDefecto = [4.5, 4.5, 154, 135, 330];
+        const preciosActuales = [0.102509, 0.042668, 0.116545, 0.116545, 0.116545];
+        
+        function crearTabla() {
+            const tbody = document.getElementById("tabla-body");
+            tbody.innerHTML = "";
+            
+            conceptos.forEach((concepto, index) => {
+                const esPotencia = concepto.includes("Potencia");
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td>${concepto}</td>
+                    <td>
+                        <input type="number" class="valor" data-index="${index}" value="${valoresPorDefecto[index]}">
+                        ${esPotencia ? " x 30 días" : ""}
+                    </td>
+                    <td><input type="number" class="precio" data-index="${index}" value="${preciosActuales[index]}"></td>
+                    <td><input type="number" class="precio-alt1" data-index="${index}" value="0"></td>
+                    <td><input type="number" class="precio-alt2" data-index="${index}" value="0"></td>
+                    <td><input type="number" class="precio-alt3" data-index="${index}" value="0"></td>
+                `;
+                tbody.appendChild(fila);
+            });
+            
+            document.querySelectorAll("input").forEach(input => {
+                input.addEventListener("input", calcularTotales);
+            });
+        }
+        
+        function calcularTotales() {
+            let totalActual = 0;
+            let totalAlternativo1 = 0;
+            let totalAlternativo2 = 0;
+            let totalAlternativo3 = 0;
+            
+            document.querySelectorAll(".valor").forEach((input, index) => {
+                let valor = parseFloat(input.value) || 0;
+                if (conceptos[index].includes("Potencia")) {
+                    valor *= 30;
+                }
+                const precioActual = parseFloat(document.querySelector(`.precio[data-index='${index}']`).value) || 0;
+                const precioAlt1 = parseFloat(document.querySelector(`.precio-alt1[data-index='${index}']`).value) || 0;
+                const precioAlt2 = parseFloat(document.querySelector(`.precio-alt2[data-index='${index}']`).value) || 0;
+                const precioAlt3 = parseFloat(document.querySelector(`.precio-alt3[data-index='${index}']`).value) || 0;
+                
+                totalActual += valor * precioActual;
+                totalAlternativo1 += valor * precioAlt1;
+                totalAlternativo2 += valor * precioAlt2;
+                totalAlternativo3 += valor * precioAlt3;
+            });
+            
+            document.getElementById("total-actual").textContent = totalActual.toFixed(2);
+            document.getElementById("total-alternativo1").textContent = totalAlternativo1.toFixed(2);
+            document.getElementById("total-alternativo2").textContent = totalAlternativo2.toFixed(2);
+            document.getElementById("total-alternativo3").textContent = totalAlternativo3.toFixed(2);
+        }
+        
+        document.getElementById("valor-anual").addEventListener("input", function() {
+            const valorAnual = parseFloat(this.value) || 0;
+            document.getElementById("resultado-diario").textContent = (valorAnual / 365).toFixed(6);
+        });
+        
+        crearTabla();
+    </script>
+</body>
+</html>

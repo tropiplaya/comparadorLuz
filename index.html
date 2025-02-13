@@ -84,9 +84,9 @@
                         ${esPotencia ? " x 30 días" : ""}
                     </td>
                     <td><input type="number" class="precio" data-index="${index}" value="${preciosActuales[index]}"></td>
-                    <td><input type="number" class="precio-alt1" data-index="${alternativa1[index]}" value="0"></td>
-                    <td><input type="number" class="precio-alt2" data-index="${alternativa2[index]}" value="0"></td>
-                    <td><input type="number" class="precio-alt3" data-index="${alternativa3[index]}" value="0"></td>
+                    <td><input type="number" class="precio-alt1" data-index="${index}" value="${alternativa1[index]}"></td>
+                    <td><input type="number" class="precio-alt2" data-index="${index}" value="${alternativa2[index]}"></td>
+                    <td><input type="number" class="precio-alt3" data-index="${index}" value="${alternativa3[index]}"></td>
                 `;
                 tbody.appendChild(fila);
             });

@@ -27,7 +27,7 @@
                 <th>Concepto</th>
                 <th>Valores</th>
                 <th>Precio Actual</th>
-                <th><input type="text" id="nombre-alt1" value="Precio Alternativo 1"></th>
+                <th><input type="text" id="nombre-alt1" value="Iberdrola 3 periodos"></th>
                 <th><input type="text" id="nombre-alt2" value="Precio Alternativo 2"></th>
                 <th><input type="text" id="nombre-alt3" value="Precio Alternativo 3"></th>
             </tr>
@@ -66,6 +66,9 @@
         const conceptos = ["Potencia Punta", "Potencia Valle", "Consumo Punta", "Consumo Valle", "Consumo Llano"];
         const valoresPorDefecto = [4.5, 4.5, 154, 135, 330];
         const preciosActuales = [0.102509, 0.042668, 0.116545, 0.116545, 0.116545];
+        const alternativa1 = [0.086301, 0.013014, 0.176576, 0.083904, 0.113892];
+        const alternativa2 = [0, 0, 0, 0, 0];
+        const alternativa3 = [0, 0, 0, 0, 0];
         
         function crearTabla() {
             const tbody = document.getElementById("tabla-body");
@@ -81,9 +84,9 @@
                         ${esPotencia ? " x 30 días" : ""}
                     </td>
                     <td><input type="number" class="precio" data-index="${index}" value="${preciosActuales[index]}"></td>
-                    <td><input type="number" class="precio-alt1" data-index="${index}" value="0"></td>
-                    <td><input type="number" class="precio-alt2" data-index="${index}" value="0"></td>
-                    <td><input type="number" class="precio-alt3" data-index="${index}" value="0"></td>
+                    <td><input type="number" class="precio-alt1" data-index="${alternativa1[index]}" value="0"></td>
+                    <td><input type="number" class="precio-alt2" data-index="${alternativa2[index]}" value="0"></td>
+                    <td><input type="number" class="precio-alt3" data-index="${alternativa3[index]}" value="0"></td>
                 `;
                 tbody.appendChild(fila);
             });

@@ -75,6 +75,10 @@
         <input type="number" id="valor-anual" value="0">
         <p>Resultado Diario: <span id="resultado-diario">0</span></p>
     </div>
+
+    <p><a href="https://comparador.cnmc.gob.es/">Comparador CNMC</a></p>
+    <p><a href="https://www.iberdrola.es/luz/plan-online">Iberdrola Plan Online</a></p>
+    <p><a href="https://www.naturgy.es/hogar/luz">Naturgy</a></p>
     
     <script>
         const conceptos = ["Potencia Punta", "Potencia Valle", "Consumo Punta", "Consumo Llano", "Consumo Valle"];
@@ -146,7 +150,7 @@
                 const precioAlt4 = parseFloat(document.querySelector(`.precio-alt4[data-index='${index}']`).value) || 0;
                 
                 totalActual += valor * precioActual;
-                totalActualVat = (totalActual * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
+                totalActualVat = (totalActual + totalActual * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
 
                 totalAlternativo0 += valor * precioAlt0;
                 totalAlternativo0Vat = (totalAlternativo0 + totalAlternativo0 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;

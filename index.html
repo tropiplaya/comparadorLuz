@@ -28,8 +28,9 @@
                 <th>Valores</th>
                 <th>Precio Actual</th>
                 <th><input type="text" id="nombre-alt1" value="Iberdrola 3 periodos"></th>
-                <th><input type="text" id="nombre-alt2" value="Precio Alternativo 2"></th>
-                <th><input type="text" id="nombre-alt3" value="Precio Alternativo 3"></th>
+                <th><input type="text" id="nombre-alt2" value="Iberdrola fijo"></th>
+                <th><input type="text" id="nombre-alt3" value="Naturgy fijo"></th>
+                <th><input type="text" id="nombre-alt3" value="Naturgy 3 periodos"></th>
             </tr>
         </thead>
         <tbody id="tabla-body">
@@ -42,6 +43,16 @@
                 <td id="total-alternativo1">0</td>
                 <td id="total-alternativo2">0</td>
                 <td id="total-alternativo3">0</td>
+                <td id="total-alternativo4">0</td>
+            </tr>
+            <tr>
+                <td><strong>Total Coste</strong></td>
+                <td></td>
+                <td id="total-actual-vat">0</td>
+                <td id="total-alternativo1-vat">0</td>
+                <td id="total-alternativo2-vat">0</td>
+                <td id="total-alternativo3-vat">0</td>
+                <td id="total-alternativo4-vat">0</td>
             </tr>
         </tfoot>
     </table>
@@ -63,12 +74,14 @@
     </div>
     
     <script>
-        const conceptos = ["Potencia Punta", "Potencia Valle", "Consumo Punta", "Consumo Valle", "Consumo Llano"];
-        const valoresPorDefecto = [4.5, 4.5, 154, 135, 330];
+        const conceptos = ["Potencia Punta", "Potencia Valle", "Consumo Punta", "Consumo Llano", "Consumo Valle"];
+        const valoresPorDefecto = [4.5, 4.5, 181, 139, 171];
         const preciosActuales = [0.102509, 0.042668, 0.116545, 0.116545, 0.116545];
-        const alternativa1 = [0.086301, 0.013014, 0.176576, 0.083904, 0.113892];
-        const alternativa2 = [0, 0, 0, 0, 0];
-        const alternativa3 = [0, 0, 0, 0, 0];
+        const alternativa1 = [0.086301, 0.013014, 0.183576 , 0.130892, 0.098904];
+        const alternativa2 = [0.095890, 0.046548, 0.132000, 0.132000, 0.132000];
+        const alternativa3 = [0.108163, 0.033392, 0.119166, 0.119166, 0.119166];
+        const alternativa4 = [0.108163, 0.033392, 0.185461, 0.116414, 0.082334];
+        
         
         function crearTabla() {
             const tbody = document.getElementById("tabla-body");
@@ -87,6 +100,7 @@
                     <td><input type="number" class="precio-alt1" data-index="${index}" value="${alternativa1[index]}"></td>
                     <td><input type="number" class="precio-alt2" data-index="${index}" value="${alternativa2[index]}"></td>
                     <td><input type="number" class="precio-alt3" data-index="${index}" value="${alternativa3[index]}"></td>
+                    <td><input type="number" class="precio-alt4" data-index="${index}" value="${alternativa4[index]}"></td>
                 `;
                 tbody.appendChild(fila);
             });
@@ -101,6 +115,16 @@
             let totalAlternativo1 = 0;
             let totalAlternativo2 = 0;
             let totalAlternativo3 = 0;
+            let totalAlternativo4 = 0;
+
+            let totalActualVat = 0;
+            let totalAlternativo1Vat = 0;
+            let totalAlternativo2Vat = 0;
+            let totalAlternativo3Vat = 0;
+            let totalAlternativo4Vat = 0;
+
+            let alquilerContador = 0.02663;
+            let impuestoElectricidad = 5.11269632 / 100;
             
             document.querySelectorAll(".valor").forEach((input, index) => {
                 let valor = parseFloat(input.value) || 0;
@@ -111,17 +135,36 @@
                 const precioAlt1 = parseFloat(document.querySelector(`.precio-alt1[data-index='${index}']`).value) || 0;
                 const precioAlt2 = parseFloat(document.querySelector(`.precio-alt2[data-index='${index}']`).value) || 0;
                 const precioAlt3 = parseFloat(document.querySelector(`.precio-alt3[data-index='${index}']`).value) || 0;
+                const precioAlt4 = parseFloat(document.querySelector(`.precio-alt4[data-index='${index}']`).value) || 0;
                 
                 totalActual += valor * precioActual;
+                totalActualVat = (totalActual * impuestoElectricidad + 30 * alquilerContador) * 1.21;
+                
                 totalAlternativo1 += valor * precioAlt1;
+                totalAlternativo1Vat = (totalActual * impuestoElectricidad + 30 * alquilerContador) * 1.21;
+                
                 totalAlternativo2 += valor * precioAlt2;
+                totalAlternativo2Vat = (totalActual * impuestoElectricidad + 30 * alquilerContador) * 1.21;
+                
                 totalAlternativo3 += valor * precioAlt3;
+                totalAlternativo3Vat = (totalActual * impuestoElectricidad + 30 * alquilerContador) * 1.21;
+
+                totalAlternativo4 += valor * precioAlt4;
+                totalAlternativo4Vat = (totalActual * impuestoElectricidad + 30 * alquilerContador) * 1.21;
             });
             
             document.getElementById("total-actual").textContent = totalActual.toFixed(2);
             document.getElementById("total-alternativo1").textContent = totalAlternativo1.toFixed(2);
             document.getElementById("total-alternativo2").textContent = totalAlternativo2.toFixed(2);
             document.getElementById("total-alternativo3").textContent = totalAlternativo3.toFixed(2);
+            document.getElementById("total-alternativo4").textContent = totalAlternativo4.toFixed(2);
+
+
+            document.getElementById("total-actual-vat").textContent = totalActualVat.toFixed(2);
+            document.getElementById("total-alternativo1-vat").textContent = totalAlternativo1Vat.toFixed(2);
+            document.getElementById("total-alternativo2-vat").textContent = totalAlternativo2Vat.toFixed(2);
+            document.getElementById("total-alternativo3-vat").textContent = totalAlternativo3Vat.toFixed(2);
+            document.getElementById("total-alternativo4-vat").textContent = totalAlternativo4Vat.toFixed(2);
         }
         
         document.getElementById("valor-anual").addEventListener("input", function() {

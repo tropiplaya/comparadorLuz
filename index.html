@@ -48,7 +48,7 @@
                 <td id="total-alternativo4">0</td>
             </tr>
             <tr>
-                <td><strong>Total con impuestos</strong></td>
+                <td><strong>Total (incl. imp. + contador)</strong></td>
                 <td></td>
                 <td id="total-actual-vat">0</td>
                 <td id="total-alternativo0-vat">0</td>
@@ -60,12 +60,12 @@
         </tfoot>
     </table>
 
-    <p>(P1) De 08h a 00h (de lunes a viernes) Período Punta</p>
-    <p>(P2) De 00h a 08h (de lunes a viernes) y las 24h (fines de semana y festivos) Período Valle</p>
-    
-    <p>(P1) De 10h a 14h y de 18h a 22h Período Punta</p>
-    <p>(P2) De 8h a 10h, de 14h a 18h y de 22h a 24h Período Llano</p>
-    <p>(P3) De 00h a 8h (de lunes a viernes) y las 24h (fines de semana y festivos) Período Valle</p>
+    <p>(Potencia P1) De 08h a 00h (de lunes a viernes) Período Punta</p>
+    <p>(Potencia P2) De 00h a 08h (de lunes a viernes) y las 24h (fines de semana y festivos) Período Valle</p>
+    <br/>
+    <p>(Periodo P1) De 10h a 14h y de 18h a 22h Período Punta</p>
+    <p>(Periodo P2) De 8h a 10h, de 14h a 18h y de 22h a 24h Período Llano</p>
+    <p>(Periodo P3) De 00h a 8h (de lunes a viernes) y las 24h (fines de semana y festivos) Período Valle</p>
 
     <p><strong>Punta = (Punta + llano)</strong></p>
     
@@ -149,19 +149,19 @@
                 totalActualVat = (totalActual * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
 
                 totalAlternativo0 += valor * precioAlt0;
-                totalAlternativo0Vat = (totalAlternativo0 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
+                totalAlternativo0Vat = (totalAlternativo0 + totalAlternativo0 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
                 
                 totalAlternativo1 += valor * precioAlt1;
-                totalAlternativo1Vat = (totalAlternativo1 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
+                totalAlternativo1Vat = (totalAlternativo1 + totalAlternativo1 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
                 
                 totalAlternativo2 += valor * precioAlt2;
-                totalAlternativo2Vat = (totalAlternativo2 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
+                totalAlternativo2Vat = (totalAlternativo2 + totalAlternativo2 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
                 
                 totalAlternativo3 += valor * precioAlt3;
-                totalAlternativo3Vat = (totalAlternativo3 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
+                totalAlternativo3Vat = (totalAlternativo3 + totalAlternativo3 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
 
                 totalAlternativo4 += valor * precioAlt4;
-                totalAlternativo4Vat = (totalAlternativo4 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
+                totalAlternativo4Vat = (totalAlternativo4 + totalAlternativo4 * impuestoElectricidad / 100 + 30 * alquilerContador) * 1.21;
             });
             
             document.getElementById("total-actual").textContent = totalActual.toFixed(2);
